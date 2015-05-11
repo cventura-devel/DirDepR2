@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Horario";
+}
+
+<div class="container">
+    @using (Html.BeginForm("Horario", "HorarioProfesor"))
+    {
+        @Html.TextBox("Nomina")
+        <input type="submit" value="Buscar" />
+    }
+</div>
+

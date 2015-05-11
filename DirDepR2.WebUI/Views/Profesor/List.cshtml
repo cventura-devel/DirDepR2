@@ -1,0 +1,14 @@
+﻿@model DirDepR2.WebUI.Models.ProfesorsListViewModel
+
+@{
+    ViewBag.Title = "Profesors";
+}
+
+@foreach (var p in Model.Profesors)
+{
+   @Html.Partial("ProfesorSummary",p)
+}
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x}))
+</div>

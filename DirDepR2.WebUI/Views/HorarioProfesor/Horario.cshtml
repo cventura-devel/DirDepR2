@@ -1,0 +1,43 @@
+﻿@model DirDepR2.WebUI.Models.HorarioProfesorViewModel
+@{
+    ViewBag.Title = "Puntos Extras";
+}
+
+<div class="container">
+
+    <img src="~/Content/Images/LogoITESM.jpg" />
+    <p class="lead">Profesor: @Model.Profesor.Nombre @Model.Profesor.ApellidoPaterno @Model.Profesor.ApellidoMaterno</p>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="text-primary">Clave</td>
+                <td class="text-primary">Materia</td>
+                <td class="text-primary">Clave</td>
+                <td class="text-primary">Dia</td>
+                <td class="text-primary">Salón</td>
+                <td class="text-primary">Inicio</td>
+                <td class="text-primary">Fin</td>
+           
+        </thead>
+        <tbody>
+            @foreach (var extra in @Model.Horario.ToList())
+            {
+                <tr class="active">
+                    <td>@extra.ClaveMateria</td>
+                    <td>@extra.Nombre</td>
+                    <td>@extra.Dia</td>
+                    <td>@extra.NumeroSalon</td>
+                    <td>@extra.Dia</td>
+                    <td>@extra.HoraInicio</td>
+                    <td>@extra.HoraFin</td>
+                        
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <h4>Sin otro particular por el momento, quedo a sus órdenes para cualquier aclaración al respecto. </h4>
+</div>
+

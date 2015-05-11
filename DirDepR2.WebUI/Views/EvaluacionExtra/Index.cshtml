@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Puntos Extras";
+}
+
+<div class="container">
+    @using (Html.BeginForm("ListaPorProfesor", "EvaluacionExtra"))
+    {
+        @Html.TextBox("Nomina")
+       <input type="submit" value="Buscar" />
+    }
+</div>
+
+
+
+@*@Html.ActionLink("Revisar Santillan", "ListaPorProfesor", "EvaluacionExtra", new{Nomina = "L01210856"},null )*@
+

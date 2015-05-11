@@ -1,0 +1,40 @@
+﻿@model DirDepR2.WebUI.Models.PuntosExtraViewModel
+@{
+    ViewBag.Title = "Puntos Extras";
+}
+
+<div class="container">
+
+    <img src="~/Content/Images/LogoITESM.jpg" />
+    <p class="lead">Profesor: @Model.Profesor.Nombre @Model.Profesor.ApellidoPaterno @Model.Profesor.ApellidoMaterno</p>
+
+    <h4>Por medio de la presente me permito solicitar a usted que asigne los puntos correspondientes a la calificación del alumno</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="text-primary">Matrícula</td>
+                <td class="text-primary">Alumno</td>
+                <td class="text-primary">Clave</td>
+                <td class="text-primary">Materia</td>
+                <td class="text-primary">Ponderación</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var extra in @Model.PuntosExtra)
+            {
+                <tr class="active">
+                    <td>@extra.Matricula</td>
+                    <td>@extra.NombreCompleto</td>
+                    <td>@extra.ClaveMateria</td>
+                    <td>@extra.Nombre</td>
+                    <td>@extra.Ponderacion</td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <h4>Sin otro particular por el momento, quedo a sus órdenes para cualquier aclaración al respecto. </h4>
+</div>
+
