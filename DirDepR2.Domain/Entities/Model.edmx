@@ -1,0 +1,555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DirDeptoRev2.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Matricula" Type="char" MaxLength="9" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="Carrera" Type="char" MaxLength="4" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDMateria" Type="int" Nullable="false" />
+          <Property Name="IDProfesor" Type="int" />
+          <Property Name="CRN" Type="int" />
+          <Property Name="Periodo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Cupo" Type="smallint" Nullable="false" />
+          <Property Name="Inscritos" Type="smallint" />
+          <Property Name="Grupo" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HoraSalon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCurso" Type="int" Nullable="false" />
+          <Property Name="IDSalon" Type="int" Nullable="false" />
+          <Property Name="HoraInicio" Type="time" Precision="7" />
+          <Property Name="HoraFin" Type="time" Precision="7" />
+          <Property Name="Dia" Type="char" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClaveMateria" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Unidades" Type="smallint" Nullable="false" />
+          <Property Name="Lab" Type="bit" />
+          <Property Name="Nivel" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profesor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nomina" Type="char" MaxLength="9" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Correo" Type="varchar" MaxLength="256" />
+          <Property Name="Departamento" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="PuntosExtras">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDAlumno" Type="int" Nullable="false" />
+          <Property Name="IDCurso" Type="int" />
+          <Property Name="Ponderacion" Type="varchar" MaxLength="50" />
+          <Property Name="Descripción" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Salon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroSalon" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Capacidad" Type="smallint" Nullable="false" />
+          <Property Name="Edificio" Type="varchar" MaxLength="7" />
+        </EntityType>
+        <Association Name="FK_Curso_Materia">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="1" />
+          <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Curso">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Curso_Profesor">
+          <End Role="Profesor" Type="Self.Profesor" Multiplicity="0..1" />
+          <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Curso">
+              <PropertyRef Name="IDProfesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoraSalon_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoraSalon" Type="Self.HoraSalon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HoraSalon">
+              <PropertyRef Name="IDCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoraSalon_Salon">
+          <End Role="Salon" Type="Self.Salon" Multiplicity="1" />
+          <End Role="HoraSalon" Type="Self.HoraSalon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salon">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HoraSalon">
+              <PropertyRef Name="IDSalon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PuntosExtras_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="PuntosExtras" Type="Self.PuntosExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PuntosExtras">
+              <PropertyRef Name="IDAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PuntosExtras_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="0..1" />
+          <End Role="PuntosExtras" Type="Self.PuntosExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PuntosExtras">
+              <PropertyRef Name="IDCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="RegresaHorarioProfesor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nomina" Type="char" Mode="In" />
+        </Function>
+        <Function Name="RegresaPuntosExtras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nomina" Type="char" Mode="In" />
+        </Function>
+        <EntityContainer Name="DirDeptoRev2EntitiesStoreContainer">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoraSalon" EntityType="Self.HoraSalon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profesor" EntityType="Self.Profesor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PuntosExtras" EntityType="Self.PuntosExtras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Salon" EntityType="Self.Salon" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Curso_Materia" Association="Self.FK_Curso_Materia">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="Curso" EntitySet="Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Curso_Profesor" Association="Self.FK_Curso_Profesor">
+            <End Role="Profesor" EntitySet="Profesor" />
+            <End Role="Curso" EntitySet="Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoraSalon_Curso" Association="Self.FK_HoraSalon_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="HoraSalon" EntitySet="HoraSalon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoraSalon_Salon" Association="Self.FK_HoraSalon_Salon">
+            <End Role="Salon" EntitySet="Salon" />
+            <End Role="HoraSalon" EntitySet="HoraSalon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PuntosExtras_Alumno" Association="Self.FK_PuntosExtras_Alumno">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="PuntosExtras" EntitySet="PuntosExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PuntosExtras_Curso" Association="Self.FK_PuntosExtras_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="PuntosExtras" EntitySet="PuntosExtras" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DirDeptoRev2.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Matricula" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Carrera" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="PuntosExtras" Relationship="Self.FK_PuntosExtras_Alumno" FromRole="Alumno" ToRole="PuntosExtras" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDMateria" Type="Int32" Nullable="false" />
+          <Property Name="IDProfesor" Type="Int32" />
+          <Property Name="CRN" Type="Int32" />
+          <Property Name="Periodo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cupo" Type="Int16" Nullable="false" />
+          <Property Name="Inscritos" Type="Int16" />
+          <Property Name="Grupo" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Materia" Relationship="Self.FK_Curso_Materia" FromRole="Curso" ToRole="Materia" />
+          <NavigationProperty Name="Profesor" Relationship="Self.FK_Curso_Profesor" FromRole="Curso" ToRole="Profesor" />
+          <NavigationProperty Name="HoraSalons" Relationship="Self.FK_HoraSalon_Curso" FromRole="Curso" ToRole="HoraSalon" />
+          <NavigationProperty Name="PuntosExtras" Relationship="Self.FK_PuntosExtras_Curso" FromRole="Curso" ToRole="PuntosExtras" />
+        </EntityType>
+        <EntityType Name="HoraSalon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCurso" Type="Int32" Nullable="false" />
+          <Property Name="IDSalon" Type="Int32" Nullable="false" />
+          <Property Name="HoraInicio" Type="Time" Precision="7" />
+          <Property Name="HoraFin" Type="Time" Precision="7" />
+          <Property Name="Dia" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Curso" Relationship="Self.FK_HoraSalon_Curso" FromRole="HoraSalon" ToRole="Curso" />
+          <NavigationProperty Name="Salon" Relationship="Self.FK_HoraSalon_Salon" FromRole="HoraSalon" ToRole="Salon" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClaveMateria" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Unidades" Type="Int16" Nullable="false" />
+          <Property Name="Lab" Type="Boolean" />
+          <Property Name="Nivel" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cursoes" Relationship="Self.FK_Curso_Materia" FromRole="Materia" ToRole="Curso" />
+        </EntityType>
+        <EntityType Name="Profesor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nomina" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cursoes" Relationship="Self.FK_Curso_Profesor" FromRole="Profesor" ToRole="Curso" />
+        </EntityType>
+        <EntityType Name="PuntosExtra">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDAlumno" Type="Int32" Nullable="false" />
+          <Property Name="IDCurso" Type="Int32" />
+          <Property Name="Ponderacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripción" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK_PuntosExtras_Alumno" FromRole="PuntosExtras" ToRole="Alumno" />
+          <NavigationProperty Name="Curso" Relationship="Self.FK_PuntosExtras_Curso" FromRole="PuntosExtras" ToRole="Curso" />
+        </EntityType>
+        <EntityType Name="Salon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroSalon" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacidad" Type="Int16" Nullable="false" />
+          <Property Name="Edificio" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="HoraSalons" Relationship="Self.FK_HoraSalon_Salon" FromRole="Salon" ToRole="HoraSalon" />
+        </EntityType>
+        <Association Name="FK_PuntosExtras_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="PuntosExtras" Type="Self.PuntosExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PuntosExtras">
+              <PropertyRef Name="IDAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Curso_Materia">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="1" />
+          <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Curso">
+              <PropertyRef Name="IDMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Curso_Profesor">
+          <End Role="Profesor" Type="Self.Profesor" Multiplicity="0..1" />
+          <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Curso">
+              <PropertyRef Name="IDProfesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoraSalon_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoraSalon" Type="Self.HoraSalon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HoraSalon">
+              <PropertyRef Name="IDCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PuntosExtras_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="0..1" />
+          <End Role="PuntosExtras" Type="Self.PuntosExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PuntosExtras">
+              <PropertyRef Name="IDCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoraSalon_Salon">
+          <End Role="Salon" Type="Self.Salon" Multiplicity="1" />
+          <End Role="HoraSalon" Type="Self.HoraSalon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salon">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HoraSalon">
+              <PropertyRef Name="IDSalon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumnoes" EntityType="Self.Alumno" />
+          <EntitySet Name="Cursoes" EntityType="Self.Curso" />
+          <EntitySet Name="HoraSalons" EntityType="Self.HoraSalon" />
+          <EntitySet Name="Materias" EntityType="Self.Materia" />
+          <EntitySet Name="Profesors" EntityType="Self.Profesor" />
+          <EntitySet Name="PuntosExtras" EntityType="Self.PuntosExtra" />
+          <EntitySet Name="Salons" EntityType="Self.Salon" />
+          <AssociationSet Name="FK_PuntosExtras_Alumno" Association="Self.FK_PuntosExtras_Alumno">
+            <End Role="Alumno" EntitySet="Alumnoes" />
+            <End Role="PuntosExtras" EntitySet="PuntosExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Curso_Materia" Association="Self.FK_Curso_Materia">
+            <End Role="Materia" EntitySet="Materias" />
+            <End Role="Curso" EntitySet="Cursoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Curso_Profesor" Association="Self.FK_Curso_Profesor">
+            <End Role="Profesor" EntitySet="Profesors" />
+            <End Role="Curso" EntitySet="Cursoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoraSalon_Curso" Association="Self.FK_HoraSalon_Curso">
+            <End Role="Curso" EntitySet="Cursoes" />
+            <End Role="HoraSalon" EntitySet="HoraSalons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PuntosExtras_Curso" Association="Self.FK_PuntosExtras_Curso">
+            <End Role="Curso" EntitySet="Cursoes" />
+            <End Role="PuntosExtras" EntitySet="PuntosExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoraSalon_Salon" Association="Self.FK_HoraSalon_Salon">
+            <End Role="Salon" EntitySet="Salons" />
+            <End Role="HoraSalon" EntitySet="HoraSalons" />
+          </AssociationSet>
+          <FunctionImport Name="RegresaPuntosExtras" ReturnType="Collection(DirDeptoRev2.Entities.RegresaPuntosExtras_Result)">
+          <Parameter Name="Nomina" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegresaHorarioProfesor" ReturnType="Collection(DirDeptoRev2.Entities.RegresaHorarioProfesor_Result)">
+            <Parameter Name="Nomina" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="RegresaPuntosExtras_Result">
+          <Property Type="String" Name="Matricula" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="NombreCompleto" Nullable="true" MaxLength="162" />
+          <Property Type="String" Name="ClaveMateria" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Ponderacion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="RegresaHorarioProfesor_Result">
+          <Property Type="String" Name="ClaveMateria" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Dia" Nullable="true" MaxLength="2" />
+          <Property Type="Time" Name="HoraInicio" Nullable="true" />
+          <Property Type="Time" Name="HoraFin" Nullable="true" />
+          <Property Type="String" Name="NumeroSalon" Nullable="false" MaxLength="5" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DirDeptoRev2EntitiesStoreContainer" CdmEntityContainer="dbContext">
+          <EntitySetMapping Name="Alumnoes">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursoes">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDMateria" ColumnName="IDMateria" />
+                <ScalarProperty Name="IDProfesor" ColumnName="IDProfesor" />
+                <ScalarProperty Name="CRN" ColumnName="CRN" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Inscritos" ColumnName="Inscritos" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoraSalons">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.HoraSalon">
+              <MappingFragment StoreEntitySet="HoraSalon">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDCurso" ColumnName="IDCurso" />
+                <ScalarProperty Name="IDSalon" ColumnName="IDSalon" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materias">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.Materia">
+              <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClaveMateria" ColumnName="ClaveMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Unidades" ColumnName="Unidades" />
+                <ScalarProperty Name="Lab" ColumnName="Lab" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profesors">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.Profesor">
+              <MappingFragment StoreEntitySet="Profesor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nomina" ColumnName="Nomina" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PuntosExtras">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.PuntosExtra">
+              <MappingFragment StoreEntitySet="PuntosExtras">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+                <ScalarProperty Name="IDCurso" ColumnName="IDCurso" />
+                <ScalarProperty Name="Ponderacion" ColumnName="Ponderacion" />
+                <ScalarProperty Name="Descripción" ColumnName="Descripción" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salons">
+            <EntityTypeMapping TypeName="DirDeptoRev2.Entities.Salon">
+              <MappingFragment StoreEntitySet="Salon">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NumeroSalon" ColumnName="NumeroSalon" />
+                <ScalarProperty Name="Capacidad" ColumnName="Capacidad" />
+                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RegresaPuntosExtras" FunctionName="DirDeptoRev2.Entities.Store.RegresaPuntosExtras">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DirDeptoRev2.Entities.RegresaPuntosExtras_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="ClaveMateria" ColumnName="ClaveMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Ponderacion" ColumnName="Ponderacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegresaHorarioProfesor" FunctionName="DirDeptoRev2.Entities.Store.RegresaHorarioProfesor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DirDeptoRev2.Entities.RegresaHorarioProfesor_Result">
+                <ScalarProperty Name="ClaveMateria" ColumnName="ClaveMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="NumeroSalon" ColumnName="NumeroSalon" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
