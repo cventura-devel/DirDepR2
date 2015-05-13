@@ -137,6 +137,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminProfesorController.cs" />
     <Compile Include="Controllers\EvaluacionExtraController.cs" />
     <Compile Include="Controllers\HorarioProfesorController.cs" />
     <Compile Include="Controllers\ProfesorController.cs" />
@@ -163,6 +164,8 @@
     <Content Include="Views\EvaluacionExtra\Index.cshtml" />
     <Content Include="Views\HorarioProfesor\Index.cshtml" />
     <Content Include="Views\HorarioProfesor\Horario.cshtml" />
+    <Content Include="Views\Shared\_AdminProfesorLayout.cshtml" />
+    <Content Include="Views\AdminProfesor\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

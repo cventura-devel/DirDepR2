@@ -1,0 +1,106 @@
+﻿@model IEnumerable<DirDepR2.Domain.Entities.Profesor>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminProfesorLayout.cshtml";
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h3>Profesores</h3>
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">ID</th>
+                <th>Apellido</th>
+                <th class="text-right">Nomina</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            @foreach(var profesor in Model)
+            {
+                <tr>
+                    <td class="text-right">@profesor.Nomina</td>
+                    <td>@Html.ActionLink(profesor.ApellidoPaterno,"Edit",new{ profesor.ID})</td>
+                    <td class="text-right">@profesor.Nomina</td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("Delete","AdminProfesor"))
+                        {
+                            @Html.Hidden("ID",profesor.ID)
+                            <input type="submit" class="btn btn-default btn-xs" value="Delete"/>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+
+
+@*<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nomina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Departamento)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nomina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departamento)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>*@
