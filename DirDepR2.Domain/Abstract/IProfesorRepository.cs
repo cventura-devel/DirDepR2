@@ -7,5 +7,7 @@ namespace DirDepR2.Domain.Abstract
     public interface IProfesorRepository
     {
         IEnumerable<Profesor> Profesors { get; }
+        void SaveProfesor(Profesor profesor);
+        Profesor DeleteProfesor(int ID);
     }
 }

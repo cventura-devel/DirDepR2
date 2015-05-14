@@ -7,10 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+
 namespace DirDepR2.Domain.Entities
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     
     public partial class Profesor
     {
@@ -18,12 +21,24 @@ namespace DirDepR2.Domain.Entities
         {
             this.Cursoes = new HashSet<Curso>();
         }
-    
+
+        [HiddenInput(DisplayValue=false)]
         public int ID { get; set; }
+        
+        [Display(Name="Nómina")]
         public string Nomina { get; set; }
+        
         public string Nombre { get; set; }
+        
+        [StringLength(50)]
+        [Display(Name="Apellido Paterno")]
         public string ApellidoPaterno { get; set; }
+
+        [StringLength(50)]
+        [Display(Name = "Apellido Materno")]
         public string ApellidoMaterno { get; set; }
+
+        [Display(Name = "Correo electrónico")]
         public string Correo { get; set; }
         public string Departamento { get; set; }
     
