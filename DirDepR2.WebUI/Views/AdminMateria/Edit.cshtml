@@ -1,0 +1,41 @@
+﻿@model DirDepR2.Domain.Entities.Materia
+@{
+    ViewBag.Title = "Admin: Edit" + @Model.Nombre;
+    Layout = "~/Views/Shared/_AdminMateriaLayout.cshtml";
+}
+
+<h1>Edit @Model.Nombre</h1>
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit: @Model.Nombre</h3>
+    </div>
+    @using (Html.BeginForm("Edit", "AdminMateria"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.ID) @*Esto en realidad no hace que no se muestre*@
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "ID" && property.PropertyName != "Cursoes")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                    </div>
+                }
+            }
+            @*@foreach (var m in Model.Cursoes)
+                {
+                    <p>@Html.DisplayFor(modelItem => m.Materia)</p>
+                }*@
+
+
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to List", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+</div>
