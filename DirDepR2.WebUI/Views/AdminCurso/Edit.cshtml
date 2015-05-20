@@ -1,0 +1,28 @@
+﻿@model DirDepR2.Domain.Entities.Curso
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminCursoLayout.cshtml";
+    //var viewMaterias = ViewData["Materias"];
+    //var viewProfesores = ViewData["Profesores"];
+}
+
+<h2>Edit: @Model.Materia.Nombre</h2>
+
+@Html.DisplayFor(m => m.CRN)<br />
+@Html.DisplayFor(m => m.Cupo)<br />
+
+@Html.DisplayFor(m => m.Periodo)<br />
+
+@Html.DisplayFor(m => m.Profesor.Nombre)<br />
+@Html.DisplayFor(m => m.Materia.Nombre)<br />
+
+@foreach(var hora in @Model.HoraSalons)
+{
+    @hora.Dia @hora.HoraInicio @hora.HoraFin <br />
+}
+
+
+
+
+@Html.DropDownList("algo",(SelectList)ViewData["Materias"]);
+@Html.DropDownList("algo2", (SelectList)ViewData["Profesores"]);

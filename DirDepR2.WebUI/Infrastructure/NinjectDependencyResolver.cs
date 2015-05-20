@@ -33,6 +33,7 @@ namespace DirDepR2.WebUI.Infrastructure
             kernel.Bind<IProfesorRepository>().To<EFProfesorRepository>();
             kernel.Bind<IStoreProcedures>().To<EFStoreProcedure>();
             kernel.Bind<IMateriaRepository>().To<EFMateriaRepository>();
+            kernel.Bind<ICursoRepository>().To<EFCursoRepository>();
         }
     }
 }

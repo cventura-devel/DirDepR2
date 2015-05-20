@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DirDepR2.Domain.Entities.Curso>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminProfesorLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Cursos</h3>
+    </div>
+
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="text-right">CRN</th>
+            <th class="text-right">Clave</th>
+            <th class="text-right">Materia</th>
+            <th class="text-right">Grupo</th>
+            <th class="text-right">Profesor</th>
+            <td class="text-right">Correo</td>
+            <th class="text-center">Action</th>
+        </tr>
+        @foreach (var curso in Model)
+        {
+            <tr>
+                <td class="text-right">@curso.CRN</td>
+                <td class="text-right">@curso.Materia.ClaveMateria</td>
+                <td>@Html.ActionLink(curso.Materia.Nombre, "Edit", new { curso.ID })</td>
+                <td class="text-right">@curso.Grupo</td>
+                <td class="text-right">@curso.Profesor.Nombre</td>
+                <td class="text-right">@curso.Profesor.Correo</td>
+                <td class="text-center">
+                    @using (Html.BeginForm("Delete", "AdminCurso"))
+                    {
+                        @Html.Hidden("ID", curso.ID)
+                        <input type="submit" class="btn btn-default btn-xs" value="Delete" />
+                    }
+
+
+                </td>
+            </tr>
+        }
+
+        @*falta la parte de dar de alta, revisar index de profesores como referencia*@
+
+    </table>
+
+
+
+
+
+
+
+</div>

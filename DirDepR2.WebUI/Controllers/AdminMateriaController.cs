@@ -17,9 +17,14 @@ namespace DirDepR2.WebUI.Controllers
             repository = repo;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(repository.Materias);
+            if(!string.IsNullOrEmpty(searchString))
+            { 
+            return View(repository.Materias.Where(n=>n.Nombre.Contains(searchString)||n.ClaveMateria.Contains(searchString)));
+            }
+            else
+                return View(repository.Materias);
         }
 
 

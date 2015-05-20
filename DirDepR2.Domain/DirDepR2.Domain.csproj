@@ -78,9 +78,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICursoRepository.cs" />
     <Compile Include="Abstract\IMateriaRepository.cs" />
     <Compile Include="Abstract\IProfesorRepository.cs" />
     <Compile Include="Abstract\IStoreProcedures.cs" />
+    <Compile Include="Concrete\EFCursoRepository.cs" />
     <Compile Include="Concrete\EFMateriaRepository.cs" />
     <Compile Include="Concrete\EFProfesorRepository.cs" />
     <Compile Include="Concrete\EFStoreProcedure.cs" />
