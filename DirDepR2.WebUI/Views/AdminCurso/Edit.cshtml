@@ -6,23 +6,111 @@
     //var viewProfesores = ViewData["Profesores"];
 }
 
-<h2>Edit: @Model.Materia.Nombre</h2>
 
-@Html.DisplayFor(m => m.CRN)<br />
-@Html.DisplayFor(m => m.Cupo)<br />
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Curso</h3>
+    </div>
 
-@Html.DisplayFor(m => m.Periodo)<br />
+    @using (Html.BeginForm("Edit", "AdminCurso"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.ID)
+            @*@Html.HiddenFor(m => m.IDMateria) Por habelo puesto me dio dolores de cabeza y no dejaba actualizar las cosas*@
+            @*@Html.HiddenFor(m => m.IDProfesor)*@
 
-@Html.DisplayFor(m => m.Profesor.Nombre)<br />
-@Html.DisplayFor(m => m.Materia.Nombre)<br />
+            <div class="form-group">
+                @*<label>LabelFor reemplaza poner labels</label>>*@
+                @Html.LabelFor(m => m.Periodo)
+                @Html.TextBoxFor(m => m.Periodo, new { @class = "form-control" })
 
-@foreach(var hora in @Model.HoraSalons)
-{
-    @hora.Dia @hora.HoraInicio @hora.HoraFin <br />
-}
+                @Html.LabelFor(m => m.CRN)
+                @Html.TextBoxFor(m => m.CRN, new { @class = "form-control" })
+
+                @Html.LabelFor(m => m.Cupo)
+                @Html.TextBoxFor(m => m.Cupo, new { @class = "form-control" })
+
+                @Html.LabelFor(m => m.Grupo)
+                @Html.TextBoxFor(m => m.Grupo, new { @class = "form-control" })
+
+                @Html.LabelFor(m => m.Inscritos)
+                @Html.TextBoxFor(m => m.Inscritos, new { @class = "form-control" })
+
+
+                @foreach (var hora in @Model.HoraSalons)
+                {
+                    <label>Día:</label>
+                    @Html.TextBox("Día", @hora.Dia, new { @class = "form-control" })
+
+                    <label>Inicio:</label>
+                    @Html.TextBox("Inicio", @hora.HoraInicio.ToString(), new { @class = "form-control" })
+
+                    <label>Fin:</label>
+                    @Html.TextBox("Fin", @hora.HoraFin.ToString(), new { @class = "form-control" })
+                }
+
+
+
+                <label class="control-label" for="IDMateria"></label>
+                @Html.DropDownList("IDMateria", string.Empty)
+                @Html.ValidationMessageFor(m => m.IDMateria)
+
+                
+
+                <label class="control-label" for="IDProfesor"></label>
+                @Html.DropDownList("IDProfesor", string.Empty)
+                @Html.ValidationMessageFor(m => m.IDProfesor)
+
+
+
+    
+                @*@Html.DropDownList("algo", (SelectList)ViewData["Materias"], new { @class = "form-control" })*@
+                @*@Html.DropDownList("algo2", (SelectList)ViewData["Profesores"], new { @class = "form-control" })*@
 
 
 
 
-@Html.DropDownList("algo",(SelectList)ViewData["Materias"]);
-@Html.DropDownList("algo2", (SelectList)ViewData["Profesores"]);
+
+
+            </div>
+            @*@Html.DropDownList("IDMateria", (SelectList)ViewData["Materias"], new { @class = "form-control" })*@
+
+
+
+
+
+        </div>
+
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to List", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+
+</div>
+
+
+@*@Html.DisplayFor(m => m.CRN)<br />
+    @Html.DisplayFor(m => m.Cupo)<br />
+
+    @Html.DisplayFor(m => m.Periodo)<br />
+
+    @Html.DisplayFor(m => m.Profesor.Nombre)<br />
+    @Html.DisplayFor(m => m.Materia.Nombre)<br />*@
+
+@*@foreach(var hora in @Model.HoraSalons)
+    {
+        @hora.Dia @hora.HoraInicio @hora.HoraFin <br />
+    }*@
+
+
+
+@*@Html.DropDownList("algo", (SelectList)ViewData["Materias"]);
+@Html.DropDownList("algo2", (SelectList)ViewData["Profesores"]);*@
+
+
+
+
+

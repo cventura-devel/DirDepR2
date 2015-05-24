@@ -29,7 +29,7 @@ namespace DirDepR2.Domain.Concrete
                 if (dbEntry != null)
                 {
                     dbEntry.CRN = curso.CRN;
-                    dbEntry.Cupo= curso.Cupo;
+                    dbEntry.Cupo = curso.Cupo;
                     dbEntry.IDMateria = curso.IDMateria;
                     dbEntry.IDProfesor = curso.IDProfesor;
                     dbEntry.Inscritos = curso.Inscritos;
