@@ -52,32 +52,19 @@
 
 
                 <label class="control-label" for="IDMateria"></label>
-                @Html.DropDownList("IDMateria", string.Empty)
+                @Html.DropDownList("IDMateria", null, string.Empty, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.IDMateria)
 
                 
 
                 <label class="control-label" for="IDProfesor"></label>
-                @Html.DropDownList("IDProfesor", string.Empty)
+                @Html.DropDownList("IDProfesor",null, string.Empty, new { @class ="form-control"})
                 @Html.ValidationMessageFor(m => m.IDProfesor)
 
+                    
 
-
-    
-                @*@Html.DropDownList("algo", (SelectList)ViewData["Materias"], new { @class = "form-control" })*@
-                @*@Html.DropDownList("algo2", (SelectList)ViewData["Profesores"], new { @class = "form-control" })*@
-
-
-
-
-
-
+             
             </div>
-            @*@Html.DropDownList("IDMateria", (SelectList)ViewData["Materias"], new { @class = "form-control" })*@
-
-
-
-
 
         </div>
 
